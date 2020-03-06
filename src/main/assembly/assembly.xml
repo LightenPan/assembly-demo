@@ -1,26 +1,34 @@
-<assembly>
-    <id></id>
+<assembly >
+    <!--此处是打包名称的设置，最后是会生成一个finalName-id.format 文件在目录 target下-->
+    <!--appendAssemblyId为false时则压缩包名称不追加id，默认下追加-->
+    <id>assembly</id>
+    <!-- 最终打包成一个用于发布的zip文件 -->
     <formats>
         <format>tar.gz</format>
     </formats>
-    <!--tar.gz压缩包下是否生成和项目名相同的根目录-->
-    <includeBaseDirectory>true</includeBaseDirectory>
+
     <dependencySets>
         <dependencySet>
-            <!--是否把本项目添加到依赖文件夹下-->
+            <!--是否将项目jar包打包到指定目录-->
             <useProjectArtifact>true</useProjectArtifact>
+            <!--将依赖jar包打到lib目录-->
             <outputDirectory>lib</outputDirectory>
-            <!--将scope为runtime的依赖包打包-->
-            <scope>runtime</scope>
-            <!--指定最后生成依赖的名称格式，解决snapshot版本依赖引用不到的问题-->
-            <outputFileNameMapping>${artifact.artifactId}-${artifact.baseVersion}.${artifact.extension}</outputFileNameMapping>
+            <!--将依赖jar包不解压直接打包到目录-->
+            <unpack>false</unpack>
         </dependencySet>
     </dependencySets>
+
     <fileSets>
+        <!--通过fileSet节点可以将制定目录的指定文件打包到压缩文件的制定目录-->
         <fileSet>
-            <directory>src/main/bin</directory>
-            <outputDirectory>/</outputDirectory>
+            <!-- 把项目的配置文件，打包到压缩文件的conf目录 -->
+            <directory>${project.basedir}/src/main/resources</directory>
+            <outputDirectory>conf</outputDirectory>
+        </fileSet>
+        <!--打包脚本文件到根目录-->
+        <fileSet>
+            <directory>${project.basedir}/src/main/bin</directory>
+            <outputDirectory>./</outputDirectory>
         </fileSet>
     </fileSets>
 </assembly>
-
